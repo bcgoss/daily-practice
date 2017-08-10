@@ -8,7 +8,33 @@ class Crypto
   end
 
   def size
-    normalize_plaintext.size ** (0.5)
+    (normalize_plaintext.size ** (0.5)).ceil
+  end
+
+  def plaintext_segments
+    char_matrix.map(&:join)
+  end
+
+  def ciphertext
+    char_matrix.transpose.join
+  end
+
+  def normalize_ciphertext
+    char_matrix.transpose.map(&:join).join(' ')
+  end
+
+  private
+
+  def char_matrix
+    pad(normalize_plaintext.chars.each_slice(size).map {|thing| thing })
+  end
+
+  def pad(matrix)
+    target = matrix[0].length
+    until matrix[-1].length == target
+      matrix[-1] << ''
+    end
+    matrix
   end
 end
 
