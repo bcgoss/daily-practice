@@ -8,31 +8,26 @@ class CryptoTest < Minitest::Test
   end
 
   def test_normalize_uppercase_characters
-    skip
     crypto = Crypto.new('WHOA HEY!')
     assert_equal 'whoahey', crypto.normalize_plaintext
   end
 
   def test_normalize_with_numbers
-    skip
     crypto = Crypto.new('1, 2, 3 GO!')
     assert_equal '123go', crypto.normalize_plaintext
   end
 
   def test_size_of_small_square
-    skip
     crypto = Crypto.new('1234')
     assert_equal 2, crypto.size
   end
 
   def test_size_of_slightly_larger_square
-    skip
     crypto = Crypto.new('123456789')
     assert_equal 3, crypto.size
   end
 
   def test_size_of_non_perfect_square
-    skip
     crypto = Crypto.new('123456789abc')
     assert_equal 4, crypto.size
   end
