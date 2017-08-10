@@ -26,7 +26,7 @@ class Crypto
   private
 
   def char_matrix
-    pad(normalize_plaintext.chars.each_slice(size).map {|thing| thing })
+    pad(normalize_plaintext.chars.each_slice(size).map {|row| row })
   end
 
   def pad(matrix)
