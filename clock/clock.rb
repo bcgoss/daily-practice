@@ -1,28 +1,43 @@
 # A 24 hour clock with hours and minutes
 class Clock
-  attr_reader :hour, :minute
   MINUTES_PER_HOUR = 60
   HOURS_PER_DAY = 24
 
-  def self.at(hour, minute)
-    new(hour, minute)
+  def self.at(*args)
+    new(*args)
   end
 
-  def initialize(hour, minute)
-    @hour = (hour + minute / MINUTES_PER_HOUR) % HOURS_PER_DAY
-    @minute = minute % MINUTES_PER_HOUR
+  def initialize(hour = 0, min = 0)
+    @total_minutes = hour * MINUTES_PER_HOUR + min
   end
 
   def to_s
-    hour.to_s.rjust(2, '0') + ':' + minute.to_s.rjust(2, '0')
+    format '%02i:%02i', *time
   end
 
-  def +(other)
-    Clock.at(hour, minute + other)
+  # rubocop:disable Style/OptionalArguments for consistency with initialize
+  def +(hour = 0, min)
+    @total_minutes += hour * MINUTES_PER_HOUR + min
+    self
   end
+  # rubocop:enable Style/OptionalArguments
 
   def ==(other)
-    hour == other.hour && minute == other.minute
+    to_s == other.to_s
+  end
+
+  private
+
+  def time
+    [clock_hours(@total_minutes), clock_minutes(@total_minutes)]
+  end
+
+  def clock_hours(minutes)
+    minutes / MINUTES_PER_HOUR % HOURS_PER_DAY
+  end
+
+  def clock_minutes(minutes)
+    minutes % MINUTES_PER_HOUR
   end
 end
 
